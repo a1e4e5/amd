@@ -7,3 +7,6 @@ on:
 jobs:
   static_analysis:
     uses: ./.github/workflows/static_analysis_shared.yml
+
+  pytest:
+    uses: ./.github/workflows/pytest_shared.yml

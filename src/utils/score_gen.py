@@ -5,10 +5,11 @@ import time
 class UnsupportedInputException(Exception):
     """Class for raising exceptions on unsupported input"""
 
+score_min = 0
+score_max = 100
+
 def gen_random_score(score_type: str) -> int | float:
     """Generate a random score (single number) of a type defined by score_type from 0..100 range."""
-    score_min = 0
-    score_max = 100
     if score_type == 'float':
         score = random.uniform(score_min, score_max)
     elif score_type == 'int':

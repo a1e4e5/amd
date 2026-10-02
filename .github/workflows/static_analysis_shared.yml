@@ -1,8 +1,8 @@
-name: CI
+# shared static_analysis jobs to be used by other workflows
+name: static_analysis
 
 on:
-  push:
-  pull_request:
+  workflow_call
 
 jobs:
   lint:

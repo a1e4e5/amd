@@ -1,0 +1,11 @@
+# static_analysis jobs to be used by other workflows
+name: mainline CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  static_analysis:
+    uses: ./.github/workflows/static_analysis_shared.yml

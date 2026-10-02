@@ -1,0 +1,9 @@
+# static_analysis jobs to be used by other workflows
+name: PR check
+
+on:
+  pull_request
+
+jobs:
+  static_analysis:
+    uses: ./.github/workflows/static_analysis_shared.yml

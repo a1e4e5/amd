@@ -1,10 +1,9 @@
 import random
 import time
-from typing import Tuple
+
 
 class UnsupportedInputException(Exception):
     """Class for raising exceptions on unsupported input"""
-    pass
 
 def gen_random_score(score_type: str) -> int | float:
     """Generate a random score (single number) of a type defined by score_type from 0..100 range."""
@@ -19,7 +18,7 @@ def gen_random_score(score_type: str) -> int | float:
     return score
 
 
-def gen_fake_msr(metric_name: str, msr_type: str) -> Tuple[str, float, int|float]:
+def gen_fake_msr(metric_name: str, msr_type: str) -> tuple[str, float, int|float]:
     """Generate fake measurement vector [metric_name, timestamp, value].
     :rtype: Tuple[str, float, int|float]
     """

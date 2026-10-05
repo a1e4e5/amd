@@ -39,6 +39,6 @@ jobs:
           auto-push: ${{ github.ref == 'refs/heads/main' }}
 
           # comment
-          alert-threshold: 150     # duration_threshold = base_duration * 150/100
+          alert-threshold: '150%'     # alert duration threshold = base duration * 150/100
           comment-on-alert: true
           fail-on-alert: true     # do not allow merging PRs with big perf regression

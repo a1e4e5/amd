@@ -1,4 +1,5 @@
 import pytest
+
 from src.utils.utils import (
     gen_fake_msr,
 )

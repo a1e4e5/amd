@@ -4,6 +4,7 @@ Expected tasks volume: high.
 
 """
 import time
+
 from src.fault_flags import CPU_CONTENTION, IO_CONTENTION
 from src.utils.io_utils import (
     add_line_to_file,

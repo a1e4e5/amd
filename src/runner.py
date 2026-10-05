@@ -8,13 +8,14 @@ Handles two pools:
 
 
 import time
-from concurrent.futures import ProcessPoolExecutor, as_completed
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
 
 PRIORITY_1 = 1
 PRIORITY_2 = 2
 
 class MultiRunner:
-    def __init__(self, max_p1_workers=1, max_p2_workers=10):
+    def __init__(self, max_p1_workers=1, max_p2_workers=10, mode='process'):
+        self.mode = mode        # 'process' or 'threading' supported
         self.runner_functions = {}                          # list of registered functions
         self.max_p1_workers = max_p1_workers         # for high priority short tasks
         self.max_p2_workers = max_p2_workers       # for heavy load but lower/normal priority
@@ -52,8 +53,15 @@ class MultiRunner:
         Param 'tasks' should be a list of tuples: [(function_name: str, (function_args,)), ... ]
         """
         self._split_tasks()
-        with ProcessPoolExecutor(max_workers=self.max_p1_workers) as priority_executor, \
-                ProcessPoolExecutor(max_workers=self.max_p2_workers) as normal_executor:
+        if self.mode == 'process':
+            Executor = ProcessPoolExecutor
+        elif self.mode == 'threading':
+            Executor = ThreadPoolExecutor
+        else:
+            print(self.mode)
+            raise ValueError(f"Not supported mode {self.mode}")
+        with Executor(max_workers=self.max_p1_workers) as priority_executor, \
+                Executor(max_workers=self.max_p2_workers) as normal_executor:
 
             self._submit_tasks(priority_executor, self.p1_tasks)
             self._submit_tasks(normal_executor, self.p2_tasks)
@@ -84,7 +92,7 @@ class MultiRunner:
 
 if __name__ == '__main__':      # usage example
     from src.jobs.normal_priority import gen_fake_msr, some_calculations
-    def test_cpu_cont():
+    def simple_runner_usage():
         runner = MultiRunner(max_p1_workers=1, max_p2_workers=10)
         for func in [some_calculations, gen_fake_msr]:
             runner.add_function(func.__name__, func)
@@ -102,3 +110,5 @@ if __name__ == '__main__':      # usage example
             func = r['f_name']
             duration = r['duration']
             durations.setdefault(func, []).append(duration)
+
+    simple_runner_usage()

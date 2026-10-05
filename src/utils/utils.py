@@ -3,6 +3,7 @@ import string
 import time
 from functools import wraps
 
+
 def measure_time(func):
     """Call function func, measure time of execution and return a tuple (duration, func_result) """
     @wraps(func)

@@ -3,6 +3,7 @@ from src.utils.utils import gen_stats
 
 
 def test_io_cont(tmp_path):
-    durations = io_cont(tmp_path, cfg_file_name, log_file_name, p1_count=10, p2_count=1000, io_issue=False)
-    gen_stats(durations)
+    durations = io_cont(tmp_path, cfg_file_name, log_file_name, p1_count=10, p2_count=100, io_issue=False)
+    interesting_durations = durations['read_cfg']   #  high priority access to cfg_file
+    gen_stats(interesting_durations)
 

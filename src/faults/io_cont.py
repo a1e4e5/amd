@@ -1,6 +1,7 @@
 import random
 import statistics
 import time
+from pathlib import Path
 
 from src.utils.io_utils import (
     add_line_to_file,
@@ -9,33 +10,39 @@ from src.utils.io_utils import (
 from src.utils.parallel import PRIORITY_1, PRIORITY_2, MultiRunner
 from src.utils.utils import gen_fake_msr, measure_time
 
-msr_log_file = ".\\msr.log"
-cfg_file = ".\\user_cfg.txt"
+log_file_name = "msr.log"
+cfg_file_name = "user_cfg.txt"
+work_dir = "."
+
 
 @measure_time
-def gather_metrics(log_file=msr_log_file, io_issue=False):
+def gather_metrics(log_file_path, io_issue=False):
     """Get some [fake] metrics and save to a log file."""
     batched_res = []
     for _ in range(1000):
         msr = gen_fake_msr()
         if io_issue is True:
-            add_line_to_file(msr_log_file, msr, flush=True)
+            add_line_to_file(log_file_path, msr, flush=True)
         else:
             batched_res.append(msr)
     if io_issue is False:
-        add_line_to_file(msr_log_file, "\n".join([msr for msr in batched_res]))
+        add_line_to_file(log_file_path, "\n".join([msr for msr in batched_res]))
     return io_issue
 
 @measure_time
-def read_conf(file_path=cfg_file):
-    """Read conf file from disk."""
-    return read_file_lines(file_path)
+def read_cfg(cfg_file_path):
+    """Read config file from disk."""
+    return read_file_lines(cfg_file_path)
 
 @measure_time
 def noop(period: float):
     """Sleep for a period of seconds."""
     time.sleep(period)
 
+def create_cfg_file(cfg_file_path):
+    """Create dummy cfg_file (to be available for I/O later)"""
+    cfg_content = "# this is a dummy cfg file for i/o contention tests\ncfg_name=golden config"
+    add_line_to_file(cfg_file_path, cfg_content)
 
 def present(prefix, durations):
     percentiles = statistics.quantiles(durations, n=100)
@@ -51,18 +58,21 @@ def present(prefix, durations):
             }
     return nice
 
-def io_cont(p1_count=1, p2_count=1, io_issue=False):
+def io_cont(working_dir, cfg_file_name, log_file_name, p1_count=1, p2_count=1, io_issue=False):
+    cfg_file_path = Path(working_dir) / cfg_file_name
+    log_file_path = Path(working_dir) / log_file_name
+    create_cfg_file(cfg_file_path)      # just to be available for I/O (reading)
     runner = MultiRunner()
-    for func in [gather_metrics, read_conf, noop]:
+    for func in [gather_metrics, read_cfg, noop]:
         runner.add_function(func.__name__, func)
 
     for _ in range(p2_count):
-        runner.add_task('gather_metrics', PRIORITY_2, (msr_log_file, io_issue))
+        runner.add_task('gather_metrics', PRIORITY_2, (log_file_path, io_issue))
 
     for _ in range(p1_count):
-        runner.add_task('read_conf', PRIORITY_1, (cfg_file,))
+        runner.add_task('read_conf', PRIORITY_1, (cfg_file_path,))
         # add auxiliary noop task to simulate interval between two requests for readiing cfg
-        runner.add_task('noop', PRIORITY_1, (random.uniform(0.1, 2),))
+        runner.add_task('noop', PRIORITY_1, (random.uniform(0.1, 1),))
     runner.run()
     durations = {}
     for r in runner.results:
@@ -74,5 +84,4 @@ def io_cont(p1_count=1, p2_count=1, io_issue=False):
 
 
 if __name__ == '__main__':
-    io_cont(p1_count=100, p2_count=1000, io_issue=False)
-    io_cont(p1_count=100, p2_count=1000, io_issue=True)
+    io_cont(work_dir, cfg_file_name, log_file_name, p1_count=10, p2_count=1000, io_issue=False)

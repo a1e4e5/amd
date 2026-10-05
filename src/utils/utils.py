@@ -23,7 +23,7 @@ def gen_fake_msr() -> str:
     """
     score_min = 0
     score_max = 100
-    name = f"metric__{"".join(random.choices(string.ascii_letters, k=6))}"
+    name = f"metric__{"".join(random.choices(string.ascii_lowercase, k=random.randint(5,10)))}"
     msr_tuple = (name, time.time(), random.uniform(score_min, score_max), random.randint(score_min, score_max),)
     msr_str_format = ",".join([str(elem) for elem in msr_tuple])
     return msr_str_format

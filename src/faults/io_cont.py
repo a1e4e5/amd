@@ -70,7 +70,7 @@ def io_cont(working_dir, cfg_file_name, log_file_name, p1_count=1, p2_count=1, i
         runner.add_task('gather_metrics', PRIORITY_2, (log_file_path, io_issue))
 
     for _ in range(p1_count):
-        runner.add_task('read_conf', PRIORITY_1, (cfg_file_path,))
+        runner.add_task('read_cfg', PRIORITY_1, (cfg_file_path,))
         # add auxiliary noop task to simulate interval between two requests for readiing cfg
         runner.add_task('noop', PRIORITY_1, (random.uniform(0.1, 1),))
     runner.run()

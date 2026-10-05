@@ -1,5 +1,4 @@
-# amd
-Basid fault scenarios:
+# Fault scenarios:
 1) Thread contention / hot lock: [not implemented]. Planned scenario: multithreading used for writing to the same file.
 2) IO contention - Multiprocessing used for writing to the same file, with flushing to disk very small amount of data. Fixed version collects many results before writing data to disk (batching).
 3) CPU contention - while() true loop. Example from real production ;). Fixed version uses sleep and checks condition every second, not permanently.

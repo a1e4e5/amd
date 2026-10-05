@@ -74,10 +74,31 @@ class MultiRunner:
                         "task_order": task_order,
                     })
                 except Exception as e:      # noqa: BLE001
+                    print(e)
                     self.results.append({
+                        "f_name": f_name,
                         "result": f"Exception: {e}",
                         "error_code": 1,
                         "duration_with_queue": duration_with_queue,
                     })
 
+if __name__ == '__main__':      # usage example
+    from src.jobs.normal_priority import gen_fake_msr, some_calculations
+    def test_cpu_cont():
+        runner = MultiRunner(max_p1_workers=1, max_p2_workers=10)
+        for func in [some_calculations, gen_fake_msr]:
+            runner.add_function(func.__name__, func)
+        for _ in range(20):
+            runner.add_task('some_calculations', PRIORITY_2, (500,))
+            runner.add_task('gen_fake_msr', PRIORITY_2, ())
 
+        iterations = 1000
+        for _ in range(20):
+            runner.add_task('some_calculations', PRIORITY_1, (iterations,))
+
+        runner.run()
+        durations = {}
+        for r in runner.results:
+            func = r['f_name']
+            duration = r['duration']
+            durations.setdefault(func, []).append(duration)

@@ -22,7 +22,6 @@ def test_cpu_cont():
     iterations = 1000
     for _ in range(20):
         runner.add_task('some_calculations', PRIORITY_1, (iterations,))
-        # runner.add_task('noop', PRIORITY_1, (random.uniform(0.01, 0.1),))
 
     runner.run()
     durations = {}
@@ -33,6 +32,3 @@ def test_cpu_cont():
     p1_durations = durations['some_calculations']
     p1_stats = gen_stats(p1_durations)
     assert p1_stats["max-min/avg"] < 0.3, "CPU bounded operations should be pretty stable if no CPU contention"
-
-# if __name__ == '__main__':
-#     test_cpu_cont()

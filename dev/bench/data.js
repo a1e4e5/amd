@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1791238524139,
+  "lastUpdate": 1791239183644,
   "repoUrl": "https://github.com/a1e4e5/amd",
   "entries": {
     "Python Pytest Benchmark": [
@@ -62,6 +62,37 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.000021555384618102046",
             "extra": "mean: 1.5441915451504686 msec\nrounds: 598"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jasiu79@o2.pl",
+            "name": "a1e4e5",
+            "username": "a1e4e5"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4ba90675384c9a9ab3b250e7bb911b6cc189ae62",
+          "message": "Expand README with fault scenarios and benchmarks\n\nAdded detailed fault scenarios and benchmarking information.",
+          "timestamp": "2026-10-06T00:24:30+02:00",
+          "tree_id": "ad264909ec8fe6fd0303bf49644a57ef4794c77f",
+          "url": "https://github.com/a1e4e5/amd/commit/4ba90675384c9a9ab3b250e7bb911b6cc189ae62"
+        },
+        "date": 1791239182859,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/jobs/test_normal_priority.py::test_get_and_save_metrics",
+            "value": 651.2694711939649,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000034143765747960566",
+            "extra": "mean: 1.5354627296850123 msec\nrounds: 603"
           }
         ]
       }

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1791239239742,
+  "lastUpdate": 1791239666295,
   "repoUrl": "https://github.com/a1e4e5/amd",
   "entries": {
     "Python Pytest Benchmark": [
@@ -124,6 +124,37 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00012491093081046367",
             "extra": "mean: 1.365348396341555 msec\nrounds: 656"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jasiu79@o2.pl",
+            "name": "a1e4e5",
+            "username": "a1e4e5"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a5f646db5ea3721e59ed8cfbde5e5b429ce947de",
+          "message": "TOC TOU hazard\n\nAdd hazard scenario for TOC TOU",
+          "timestamp": "2026-10-06T00:32:19+02:00",
+          "tree_id": "2b06331377fb89723ccf3a5d40fd40d66e0d4136",
+          "url": "https://github.com/a1e4e5/amd/commit/a5f646db5ea3721e59ed8cfbde5e5b429ce947de"
+        },
+        "date": 1791239665781,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/jobs/test_normal_priority.py::test_get_and_save_metrics",
+            "value": 487.22837642864926,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00008528959995799621",
+            "extra": "mean: 2.0524256147187723 msec\nrounds: 462"
           }
         ]
       }

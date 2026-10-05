@@ -1,5 +1,5 @@
 import pytest
-from src.utils.score_gen import (
+from src.utils.utils import (
     gen_fake_msr,
 )
 

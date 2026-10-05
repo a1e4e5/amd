@@ -6,6 +6,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   static_analysis:
     uses: ./.github/workflows/static_analysis_shared.yml

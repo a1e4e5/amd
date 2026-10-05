@@ -24,6 +24,6 @@ def read_last_line(file_path, encoding="utf-8"):
     return content[-1] if content else None
 
 def count_file_lines(file_path, encoding="utf-8"):
-    content = read_file_lines(file_path, encoding=encoding)
-    lines_number = content.count("\n") + 1 if content else 0
-    return lines_number
+    file_lines = read_file_lines(file_path, encoding=encoding)
+    return len(file_lines)
+

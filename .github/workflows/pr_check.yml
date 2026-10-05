@@ -4,6 +4,9 @@ name: PR check
 on:
   pull_request
 
+permissions:
+  contents: write
+
 jobs:
   static_analysis:
     uses: ./.github/workflows/static_analysis_shared.yml

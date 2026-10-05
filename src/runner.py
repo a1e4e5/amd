@@ -1,26 +1,23 @@
+"""
+Simple runner for processing tasks simultanously.
+
+Handles two pools:
+- one for many, normal priority, medium heavy tasks
+- one for short, high priority tasks
+"""
+
+
 import time
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 PRIORITY_1 = 1
 PRIORITY_2 = 2
 
-def call_f(function_and_params):
-    """Unpack argument into a (function, func_args_list), execute and return results."""
-    f, params = function_and_params
-    assert isinstance(params, list|tuple),f"params expected to be list but got {type(params)}"
-    t_start = time.perf_counter()
-    output = f(*params)
-    t_end = time.perf_counter()
-    duration = t_end - t_start
-    return duration, output
-
-
-
 class MultiRunner:
-    def __init__(self):
-        self.runner_functions = {}      # list of registered functions
-        self.max_p1_workers = 1
-        self.max_p2_workers = 10
+    def __init__(self, max_p1_workers=1, max_p2_workers=10):
+        self.runner_functions = {}                          # list of registered functions
+        self.max_p1_workers = max_p1_workers         # for high priority short tasks
+        self.max_p2_workers = max_p2_workers       # for heavy load but lower/normal priority
         self.tasks = []     # list of tasks [(f_name, priority, args)]
         self.p1_tasks = None
         self.p2_tasks = None
@@ -69,6 +66,7 @@ class MultiRunner:
                 try:
                     res = future.result()
                     self.results.append({
+                        "error_code": 0,
                         "result": res,
                         "duration_with_queue": duration_with_queue,
                         "duration": res[0],
@@ -78,7 +76,8 @@ class MultiRunner:
                 except Exception as e:      # noqa: BLE001
                     self.results.append({
                         "result": f"Exception: {e}",
+                        "error_code": 1,
                         "duration_with_queue": duration_with_queue,
                     })
-        print("\nMultirunner exit.")
+
 

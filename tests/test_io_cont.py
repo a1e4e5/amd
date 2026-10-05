@@ -32,10 +32,10 @@ def test_io_cont(tmp_path):
     for _ in range(5000):
         runner.add_task('get_and_save_metrics', PRIORITY_2, (300, log_file_path,))
 
-    for _ in range(50):
+    for _ in range(100):
         runner.add_task('read_cfg', PRIORITY_1, (cfg_file_path,))
         # add auxiliary noop task to simulate interval between two requests for reading cfg
-        runner.add_task('noop', PRIORITY_1, (random.uniform(0.1, 0.5),))
+        runner.add_task('noop', PRIORITY_1, (random.uniform(0.01, 0.1),))
         runner.add_task('get_file_lines_count', PRIORITY_1, (log_file_path,))
 
     runner.run()

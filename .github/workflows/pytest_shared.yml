@@ -5,7 +5,7 @@ on:
   workflow_call
 
 jobs:
-  mypy:
+  pytest:
     runs-on: ubuntu-latest
 
     steps:
@@ -13,6 +13,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.14'
-      - run: |
-          python -m pip install -r requirements.txt
-          pytest
+      - name: install python dependencies
+        run: python -m pip install -r requirements.txt
+      - name: run pytest
+        run: pytest

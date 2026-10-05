@@ -44,5 +44,6 @@ def gen_stats(durations: list[float]) -> dict:
              "median": median,
              "p99/median": p99/median,
              "p99/avg": p99/mean,
+             "max-min/avg": (max(durations) - min(durations)) / mean
             }
     return stats

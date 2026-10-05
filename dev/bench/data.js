@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1791239183644,
+  "lastUpdate": 1791239239742,
   "repoUrl": "https://github.com/a1e4e5/amd",
   "entries": {
     "Python Pytest Benchmark": [
@@ -93,6 +93,37 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.000034143765747960566",
             "extra": "mean: 1.5354627296850123 msec\nrounds: 603"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jasiu79@o2.pl",
+            "name": "a1e4e5",
+            "username": "a1e4e5"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5b743c5bbf8592ed78c6882600174cb053ae330d",
+          "message": "Update header for fault scenarios section in README",
+          "timestamp": "2026-10-06T00:25:34+02:00",
+          "tree_id": "9ba16e55cf3273558bee694493d37a0f19baaaf6",
+          "url": "https://github.com/a1e4e5/amd/commit/5b743c5bbf8592ed78c6882600174cb053ae330d"
+        },
+        "date": 1791239239226,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/jobs/test_normal_priority.py::test_get_and_save_metrics",
+            "value": 732.4137946618574,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00012491093081046367",
+            "extra": "mean: 1.365348396341555 msec\nrounds: 656"
           }
         ]
       }

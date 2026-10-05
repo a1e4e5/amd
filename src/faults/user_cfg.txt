@@ -1,0 +1,4 @@
+# dummy file
+service_name=magic box
+user=anonymous
+dst_path=/tests/results

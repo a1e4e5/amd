@@ -1,4 +1,5 @@
 import random
+import statistics
 import string
 import time
 from functools import wraps
@@ -28,3 +29,20 @@ def gen_fake_msr() -> str:
     msr_tuple = (name, time.time(), random.uniform(score_min, score_max), random.randint(score_min, score_max),)
     msr_str_format = ",".join([str(elem) for elem in msr_tuple])
     return msr_str_format
+
+
+def gen_stats(durations: list[float]) -> dict:
+    """Calculate and return some stats for a list of a durations."""
+    percentiles = statistics.quantiles(durations, n=100)
+    mean = statistics.mean(durations)
+    p99 = percentiles[98]
+    median = percentiles[49]
+    stats = {"min": min(durations),
+             "max": max(durations),
+             "avg": mean,
+             "p99": p99,
+             "median": median,
+             "p99/median": p99/median,
+             "p99/avg": p99/mean,
+            }
+    return stats

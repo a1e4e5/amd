@@ -8,12 +8,37 @@ jobs:
   pytest:
     runs-on: ubuntu-latest
 
+    permissions:      # need write permissions to save results history
+      contents: write
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.14'
-      - name: install python dependencies
+      - name: Install Python dependencies
         run: python -m pip install -r requirements.txt
-      - name: run pytest
-        run: pytest
+
+      - name: Run pytest
+        # for benchmark tests store results in json
+        run: pytest --benchmark-json benchmark_result.json
+
+      - name: Store benchmark history
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          name: Python Pytest Benchmark
+          tool: 'pytest'
+          output-file-path: benchmark_result.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          gh-pages-branch: 'gh-pages'
+
+          # add new result (benchmark_result.json) to historical data
+          local-write-process: true
+
+          # for main updated history to be stored in github
+          auto-push: ${{ github.ref == 'refs/heads/main' }}
+
+          # comment
+          alert-threshold: 150     # duration_threshold = base_duration * 150/100
+          comment-on-alert: true
+          fail-on-alert: true     # do not allow merging PRs with big perf regression
